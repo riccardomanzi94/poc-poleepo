@@ -1,0 +1,2 @@
+classpath: /usr/lib/jvm-libraries/ojdbc/ojdbc21.jar
+db: orapci-propagate
