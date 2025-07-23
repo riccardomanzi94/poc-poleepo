@@ -23,6 +23,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<poleepo-common.version>0.0.1-SNAPSHOT</poleepo-common.version>
+		<org.mapstruct.version>1.6.3</org.mapstruct.version>
 	</properties>
 
 
