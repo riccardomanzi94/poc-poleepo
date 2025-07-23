@@ -1,20 +1,18 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
 services:
-  oraclexe:
-    image: gvenzl/oracle-xe
-    container_name: pace_payment_db
-    command: /bin/bash /initialize.sh
-    volumes:
-      - "oracle_data:/opt/oracle/oradata"
-      - "oracle_home:/home"
+  h2:
+    image: oscarfonts/h2
+    container_name: poleepo_h2_db
     ports:
-      - 1521:1521
+      - "1521:1521"  # Porta TCP per connessioni JDBC
+      - "8181:81"    # Porta web console
     environment:
-      ORACLE_PASSWORD: 'supersecret'
-      ORACLE_DATABASE: 'POLEEPODEV'
-      APP_USER: 'poleepo'
-      APP_USER_PASSWORD: 'poleepo'
+      - H2_OPTIONS=-ifNotExists
+      - H2_USER=sa
+      - H2_PASSWORD=sa
+    volumes:
+      - "h2_data:/opt/h2-data"
 
   pace-hazelcast:
     image: hazelcast/hazelcast:5.2.1
@@ -77,14 +75,14 @@ services:
       - ./files:/home/wiremock/__files
       - ./mappings:/home/wiremock/mappings
 volumes:
-  zookeeper_data:
-    driver: local
-  kafka_data:
-    driver: local
+  h2_data:
   files:
   mappings:
   oracle_data:
     driver: local
   oracle_home:
     driver: local
-
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local

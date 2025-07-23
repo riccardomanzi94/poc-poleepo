@@ -12,6 +12,20 @@
     <artifactId>poc-poleepo-web</artifactId>
     <packaging>jar</packaging>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <dependencies>
+                <!-- LIQUIBASE -->
+                <dependency>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-core</artifactId>
+                    <version>${liquibase-core.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
