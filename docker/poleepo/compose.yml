@@ -1,0 +1,88 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+version: '3.8'
+services:
+  h2:
+    image: oscarfonts/h2
+    container_name: poleepo_h2_db
+    ports:
+      - "1521:1521"  # Porta TCP per connessioni JDBC
+      - "8181:81"    # Porta web console
+    environment:
+      - H2_OPTIONS=-ifNotExists
+      - H2_USER=sa
+      - H2_PASSWORD=sa
+    volumes:
+      - "h2_data:/opt/h2-data"
+
+  pace-hazelcast:
+    image: hazelcast/hazelcast:5.2.1
+    ports:
+      - "5701:5701"
+  pace-hazelcastmanagement-center:
+    image: hazelcast/management-center:5.2.1
+    ports:
+      - "5710:8080"
+    environment:
+      - MC_DEFAULT_CLUSTER=dev
+      - MC_DEFAULT_CLUSTER_MEMBERS=pace-hazelcast
+  pace-zookeeper:
+    image: docker.io/bitnami/zookeeper:3.8
+    volumes:
+      - "zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    hostname: zookeeper.local
+  pace-kafka:
+    image: docker.io/bitnami/kafka:3.2
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 127.0.0.1:29091:29091
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper.local:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_CFG_LISTENERS=CLIENT://:9091,EXTERNAL://:29091
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka.local:9091,EXTERNAL://localhost:29091
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_CFG_SSL_CLIENT_AUTH=none
+    hostname: kafka.local
+    depends_on:
+      - pace-zookeeper
+  pace-kafka-ui:
+    image: provectuslabs/kafka-ui
+    ports:
+      - "8280:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka.local:9091
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper.local:2181
+    depends_on:
+      - pace-kafka
+  wiremock:
+    image: "wiremock/wiremock:latest"
+    container_name: my_wiremock
+    entrypoint: [ "/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose" ]
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./files:/home/wiremock/__files
+      - ./mappings:/home/wiremock/mappings
+volumes:
+  h2_data:
+  files:
+  mappings:
+  oracle_data:
+    driver: local
+  oracle_home:
+    driver: local
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local

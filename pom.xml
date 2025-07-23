@@ -6,25 +6,41 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
+
 	<groupId>com.poleepo</groupId>
 	<artifactId>POC-Poleepo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>pom</packaging>
 	<name>POC-Poleepo</name>
 	<description>POC for Poleepo</description>
 
+	<properties>
+		<!-- Maven plugins e testing -->
+		<maven.compiler.version>3.14.0</maven.compiler.version>
+		<maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<surefire.version>3.2.5</surefire.version>
+		<jacoco.version>0.8.11</jacoco.version>
+		<!-- Spring Boot -->
+		<spring-boot.version>3.5.3</spring-boot.version>
+		<!-- Database -->
+		<h2.version>2.2.224</h2.version>
+		<liquibase-core.version>4.33.0</liquibase-core.version>
+		<!-- Documentation -->
+		<springdoc-openapi.version>2.8.9</springdoc-openapi.version>
+		<!-- Mappatura e Utilità -->
+		<org.mapstruct.version>1.6.3</org.mapstruct.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<java.version>21</java.version>
+	</properties>
+
 	<modules>
-		<module>poc-poleepo-common</module>
 		<module>poc-poleepo-web</module>
 	</modules>
-
-	<properties>
-		<java.version>17</java.version>
-		<poleepo-common.version>0.0.1-SNAPSHOT</poleepo-common.version>
-		<org.mapstruct.version>1.6.3</org.mapstruct.version>
-	</properties>
 
 
 </project>
