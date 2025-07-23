@@ -23,6 +23,35 @@
                     <version>${liquibase-core.version}</version>
                 </dependency>
             </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${maven-resources-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.outputDirectory}/db/changelog</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>../liquibase/poleepo/POLEEPOSCHEMA/changelog/</directory>
+                                            <includes>
+                                                <include>**/*</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 
