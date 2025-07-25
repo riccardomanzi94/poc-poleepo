@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.1
+      author: rmanzi
+      changes:
+        - createTable:
+            tableName: configuration
+            columns:
+              - column:
+                  name: storeId
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: apiToken
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: shopId
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
