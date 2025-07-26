@@ -25,16 +25,20 @@ public class CategoryServiceImpl implements ICategoryService{
 
 
     @Override
-    public List<CategoryDto> getCategory(@NonNull String storeId, @NonNull String source, @NonNull String authorizationHeader) {
+    public List<CategoryDto> getCategory(@NonNull String storeId, @NonNull String source, String authorizationHeader) {
         log.info("Inizio getCategory per storeId: {}, source: {}", storeId, source);
 
         List<CategoryDto> response = new ArrayList<>();
 
-        String token = authorizationHeader.startsWith("Bearer ") ? authorizationHeader.substring(7) : authorizationHeader;
-        if (categoryProperties.getToken() == null || !List.of(categoryProperties.getToken().split(",")).contains(token)) {
-            throw new GenericException("Token non valido");
-
+        if(authorizationHeader != null){
+            String token = authorizationHeader.startsWith("Bearer ") ? authorizationHeader.substring(7) : authorizationHeader;
+            if (categoryProperties.getDefaultToken() == null || !List.of(categoryProperties.getAvailableToken().split(",")).contains(token)) {
+                throw new GenericException("Token non valido");
+            }
+        }else{
+            authorizationHeader = categoryProperties.getDefaultToken();
         }
+
 
         List<CategoryResponse> categories = categoryGatewayDriver.getCategories(authorizationHeader);
         log.debug("Categorie recuperate: {}", categories.size());

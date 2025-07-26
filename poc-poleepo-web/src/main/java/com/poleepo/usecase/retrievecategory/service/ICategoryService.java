@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ICategoryService {
 
-    List<CategoryDto> getCategory(@NonNull String storeId, @NonNull String source, @NonNull String authorizationHeader);
+    List<CategoryDto> getCategory(@NonNull String storeId, @NonNull String source, String authorizationHeader);
 }

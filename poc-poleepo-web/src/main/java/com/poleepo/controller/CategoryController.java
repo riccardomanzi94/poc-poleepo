@@ -25,7 +25,7 @@ public class CategoryController {
     public ResponseEntity<ResponseDto<List<CategoryDto>>> getCategories(
             @RequestHeader(X_STORE) String store,
             @RequestHeader(X_SOURCE) String source,
-            @RequestHeader("Authorization") String authorizationHeader) {
+            @RequestHeader(value = "Authorization",required = false) String authorizationHeader) {
 
         List<CategoryDto> category = categoryService.getCategory(store, source,authorizationHeader);
 
