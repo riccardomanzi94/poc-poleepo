@@ -20,14 +20,14 @@ public class CategoryGatewayDriver implements ICategoryGatewayDriver {
     private final CategoryProperties categoryProperties;
 
     @Override
-    public List<CategoryResponse> getCategories() {
+    public List<CategoryResponse> getCategories(String authorizationHeader) {
         log.info("Calling categories API - begin");
 
         try {
             List<CategoryResponse> categories = webClientBuilder.build()
                     .get()
                     .uri(categoryProperties.getUrl())
-                    .header("Authorization", "Bearer " + categoryProperties.getToken())
+                    .header("Authorization", authorizationHeader)
                     .retrieve()
                     .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
                             clientResponse -> {

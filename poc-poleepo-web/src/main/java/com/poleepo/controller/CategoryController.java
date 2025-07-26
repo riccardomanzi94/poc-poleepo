@@ -24,9 +24,10 @@ public class CategoryController {
     @GetMapping("/categories")
     public ResponseEntity<ResponseDto<List<CategoryDto>>> getCategories(
             @RequestHeader(X_STORE) String store,
-            @RequestHeader(X_SOURCE) String source) {
+            @RequestHeader(X_SOURCE) String source,
+            @RequestHeader("Authorization") String authorizationHeader) {
 
-        List<CategoryDto> category = categoryService.getCategory(store, source);
+        List<CategoryDto> category = categoryService.getCategory(store, source,authorizationHeader);
 
 
         return ResponseEntity.ok(ResponseDto.<List<CategoryDto>>builder()

@@ -1,9 +1,11 @@
 package com.poleepo.usecase.retrievecategory.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poleepo.exception.GenericException;
 import com.poleepo.model.CategoryDto;
 import com.poleepo.model.CategoryTree;
 import com.poleepo.model.response.CategoryResponse;
+import com.poleepo.properties.CategoryProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +21,22 @@ public class CategoryServiceImpl implements ICategoryService{
 
     private final ICategoryGatewayDriver categoryGatewayDriver;
     private final ObjectMapper mapper;
+    private final CategoryProperties categoryProperties;
 
 
     @Override
-    public List<CategoryDto> getCategory(@NonNull String storeId, @NonNull String source) {
+    public List<CategoryDto> getCategory(@NonNull String storeId, @NonNull String source, @NonNull String authorizationHeader) {
         log.info("Inizio getCategory per storeId: {}, source: {}", storeId, source);
 
         List<CategoryDto> response = new ArrayList<>();
 
-        List<CategoryResponse> categories = categoryGatewayDriver.getCategories();
+        String token = authorizationHeader.startsWith("Bearer ") ? authorizationHeader.substring(7) : authorizationHeader;
+        if (categoryProperties.getToken() == null || !List.of(categoryProperties.getToken().split(",")).contains(token)) {
+            throw new GenericException("Token non valido");
+
+        }
+
+        List<CategoryResponse> categories = categoryGatewayDriver.getCategories(authorizationHeader);
         log.debug("Categorie recuperate: {}", categories.size());
 
         List<CategoryTree> allChildren = categories.stream()

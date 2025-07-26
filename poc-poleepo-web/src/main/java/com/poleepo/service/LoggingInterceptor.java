@@ -14,8 +14,10 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        String correlationId = UUID.randomUUID().toString();
         log.info("Request URI: {} ", request.getRequestURI());
-        log.info("X-Correlation-ID: {} ", UUID.randomUUID());
+        log.info("X-Correlation-ID: {} ", correlationId);
+        response.setHeader("X-Correlation-ID", correlationId);
         return true;
     }
 }
