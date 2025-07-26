@@ -18,7 +18,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
@@ -83,7 +84,8 @@ class CategoryServiceImplTest {
         List<CategoryResponse> gatewayResponse = Collections.singletonList(categoryResponse);
 
         // Setup mocks
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("validToken");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
         when(categoryGatewayDriver.getCategories(authorizationHeader)).thenReturn(gatewayResponse);
         when(mapper.convertValue(eq(treeWithoutChildren), eq(CategoryDto.class))).thenReturn(convertedCategory);
 
@@ -97,8 +99,9 @@ class CategoryServiceImplTest {
         assertTrue(result.contains(childCategory2));
         assertTrue(result.contains(convertedCategory));
 
-        verify(categoryProperties,times(2)).getDefaultToken();
-        verify(categoryGatewayDriver,times(1)).getCategories(authorizationHeader);
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
+        verify(categoryGatewayDriver).getCategories(authorizationHeader);
         verify(mapper).convertValue(treeWithoutChildren, CategoryDto.class);
     }
 
@@ -128,7 +131,8 @@ class CategoryServiceImplTest {
                 .build();
 
         // Setup mocks
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("directToken");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
         when(categoryGatewayDriver.getCategories(authorizationHeader)).thenReturn(Collections.singletonList(categoryResponse));
         when(mapper.convertValue(eq(treeWithoutChildren), eq(CategoryDto.class))).thenReturn(convertedCategory);
 
@@ -140,8 +144,9 @@ class CategoryServiceImplTest {
         assertEquals(1, result.size());
         assertEquals(convertedCategory, result.get(0));
 
-        verify(categoryProperties,times(2)).getDefaultToken();
-        verify(categoryGatewayDriver,times(1)).getCategories(authorizationHeader);
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
+        verify(categoryGatewayDriver).getCategories(authorizationHeader);
     }
 
     @Test
@@ -152,14 +157,16 @@ class CategoryServiceImplTest {
         String authorizationHeader = "Bearer invalidToken";
         String validTokens = "validToken1,validToken2";
 
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("validToken1");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
 
         // When & Then
         GenericException exception = assertThrows(GenericException.class,
             () -> categoryService.getCategory(storeId, source, authorizationHeader));
 
         assertEquals("Token non valido", exception.getMessage());
-        verify(categoryProperties,times(2)).getDefaultToken();
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
     }
 
     @Test
@@ -187,7 +194,8 @@ class CategoryServiceImplTest {
         String authorizationHeader = "Bearer validToken";
         String validTokens = "validToken";
 
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("validToken");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
         when(categoryGatewayDriver.getCategories(authorizationHeader)).thenReturn(Collections.emptyList());
 
         // When
@@ -197,8 +205,9 @@ class CategoryServiceImplTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
 
-        verify(categoryProperties,times(2)).getDefaultToken();
-        verify(categoryGatewayDriver,times(1)).getCategories(authorizationHeader);
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
+        verify(categoryGatewayDriver).getCategories(authorizationHeader);
     }
 
     @Test
@@ -215,7 +224,8 @@ class CategoryServiceImplTest {
                 .children(null)
                 .build();
 
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("validToken");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
         when(categoryGatewayDriver.getCategories(authorizationHeader))
                 .thenReturn(Arrays.asList(categoryWithoutChildren));
 
@@ -226,8 +236,9 @@ class CategoryServiceImplTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
 
-        verify(categoryProperties,times(2)).getDefaultToken();
-        verify(categoryGatewayDriver,times(1)).getCategories(authorizationHeader);
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
+        verify(categoryGatewayDriver).getCategories(authorizationHeader);
     }
 
     @Test
@@ -277,7 +288,8 @@ class CategoryServiceImplTest {
         List<CategoryResponse> gatewayResponse = Collections.singletonList(categoryResponse);
 
         // Setup mocks
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("validToken");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
         when(categoryGatewayDriver.getCategories(authorizationHeader)).thenReturn(gatewayResponse);
         when(mapper.convertValue(eq(leafTree), eq(CategoryDto.class))).thenReturn(convertedCategory);
 
@@ -293,7 +305,8 @@ class CategoryServiceImplTest {
         assertTrue(result.contains(directChild2));
         assertTrue(result.contains(convertedCategory));
 
-        verify(categoryProperties,times(2)).getDefaultToken();
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
         verify(categoryGatewayDriver).getCategories(authorizationHeader);
         verify(mapper).convertValue(leafTree, CategoryDto.class);
     }
@@ -323,7 +336,8 @@ class CategoryServiceImplTest {
                 .children(Collections.singletonList(tree))
                 .build();
 
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("firstToken");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
         when(categoryGatewayDriver.getCategories(authorizationHeader)).thenReturn(Collections.singletonList(response));
         when(mapper.convertValue(eq(tree), eq(CategoryDto.class))).thenReturn(convertedCategory);
 
@@ -335,7 +349,8 @@ class CategoryServiceImplTest {
         assertEquals(1, result.size());
         assertEquals(convertedCategory, result.get(0));
 
-        verify(categoryProperties,times(2)).getDefaultToken();
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
         verify(categoryGatewayDriver).getCategories(authorizationHeader);
     }
 
@@ -345,7 +360,7 @@ class CategoryServiceImplTest {
         String storeId = "mapperStore";
         String source = "web";
         String authorizationHeader = "Bearer validToken";
-        String validTokens = "validToken";
+        String validTokens = "validToken,validToken2";
 
         CategoryDto mappedCategory1 = CategoryDto.builder()
                 .id("mapped1")
@@ -375,7 +390,8 @@ class CategoryServiceImplTest {
                 .children(Arrays.asList(tree1, tree2))
                 .build();
 
-        when(categoryProperties.getDefaultToken()).thenReturn(validTokens);
+        when(categoryProperties.getDefaultToken()).thenReturn("validToken");
+        when(categoryProperties.getAvailableToken()).thenReturn(validTokens);
         when(categoryGatewayDriver.getCategories(authorizationHeader)).thenReturn(Collections.singletonList(response));
         when(mapper.convertValue(eq(tree1), eq(CategoryDto.class))).thenReturn(mappedCategory1);
         when(mapper.convertValue(eq(tree2), eq(CategoryDto.class))).thenReturn(mappedCategory2);
@@ -389,6 +405,8 @@ class CategoryServiceImplTest {
         assertTrue(result.contains(mappedCategory1));
         assertTrue(result.contains(mappedCategory2));
 
+        verify(categoryProperties).getDefaultToken();
+        verify(categoryProperties).getAvailableToken();
         verify(mapper).convertValue(tree1, CategoryDto.class);
         verify(mapper).convertValue(tree2, CategoryDto.class);
     }

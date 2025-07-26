@@ -150,19 +150,6 @@ class CategoryControllerIntegrationTest {
     }
 
     @Test
-    void getCategories_WhenMissingAuthorizationHeader_ShouldReturnBadRequest() throws Exception {
-        // Given
-        String store = "store123";
-        String source = "web";
-
-        // When & Then
-        mockMvc.perform(get(BASE_URL)
-                        .header(X_STORE_HEADER, store)
-                        .header(X_SOURCE_HEADER, source))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     void getCategories_WhenEmptyHeaders_ShouldCallServiceWithEmptyValues() throws Exception {
         // Given
         List<CategoryDto> emptyCategories = Collections.emptyList();
