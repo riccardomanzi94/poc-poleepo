@@ -1,6 +1,7 @@
 package com.poleepo.config;
 
-import com.poleepo.controller.LoggingInterceptor;
+import com.poleepo.service.LoggingInterceptor;
+import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
+@Generated
 public class WebConfig implements WebMvcConfigurer {
 
 
