@@ -37,11 +37,9 @@ class CategoryControllerTest {
 
         List<CategoryDto> mockCategories = Arrays.asList(
                 CategoryDto.builder()
-                        .id("cat1")
                         .name("Electronics")
                         .build(),
                 CategoryDto.builder()
-                        .id("cat2")
                         .name("Clothing")
                         .build()
         );
@@ -64,11 +62,10 @@ class CategoryControllerTest {
         assertEquals(2, responseBody.getData().size());
 
         CategoryDto firstCategory = responseBody.getData().get(0);
-        assertEquals("cat1", firstCategory.getId());
+
         assertEquals("Electronics", firstCategory.getName());
 
         CategoryDto secondCategory = responseBody.getData().get(1);
-        assertEquals("cat2", secondCategory.getId());
         assertEquals("Clothing", secondCategory.getName());
 
         verify(categoryService).getCategory(store, source, authorizationHeader);
@@ -112,7 +109,6 @@ class CategoryControllerTest {
 
         List<CategoryDto> mockCategories = Arrays.asList(
                 CategoryDto.builder()
-                        .id("cat3")
                         .name("Books")
                         .build()
         );
@@ -132,7 +128,6 @@ class CategoryControllerTest {
         assertNotNull(responseBody);
         assertTrue(responseBody.isSuccess());
         assertEquals(1, responseBody.getData().size());
-        assertEquals("cat3", responseBody.getData().get(0).getId());
         assertEquals("Books", responseBody.getData().get(0).getName());
 
         verify(categoryService).getCategory(store, source, authorizationHeader);
@@ -147,7 +142,6 @@ class CategoryControllerTest {
 
         List<CategoryDto> mockCategories = Collections.singletonList(
                 CategoryDto.builder()
-                        .id("testCat")
                         .name("Test Category")
                         .build()
         );

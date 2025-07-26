@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @Slf4j
@@ -28,8 +29,6 @@ public class CategoryServiceImpl implements ICategoryService{
     public List<CategoryDto> getCategory(@NonNull String storeId, @NonNull String source, String authorizationHeader) {
         log.info("Inizio getCategory per storeId: {}, source: {}", storeId, source);
 
-        List<CategoryDto> response = new ArrayList<>();
-
         if(authorizationHeader != null){
             String token = authorizationHeader.startsWith("Bearer ") ? authorizationHeader.substring(7) : authorizationHeader;
             if (categoryProperties.getDefaultToken() == null || !List.of(categoryProperties.getAvailableToken().split(",")).contains(token)) {
@@ -38,30 +37,43 @@ public class CategoryServiceImpl implements ICategoryService{
         }else{
             authorizationHeader = categoryProperties.getDefaultToken();
         }
-
-
         List<CategoryResponse> categories = categoryGatewayDriver.getCategories(authorizationHeader);
-        log.debug("Categorie recuperate: {}", categories.size());
+        List<CategoryDto> leafCategories = new ArrayList<>();
+        AtomicInteger sourceIdCounter = new AtomicInteger(1);
 
-        List<CategoryTree> allChildren = categories.stream()
-                .filter(c -> c.getChildren() != null)
-                .flatMap(c -> c.getChildren().stream())
-                .toList();
-        log.debug("Numero totale di children trovati: {}", allChildren.size());
+        for (CategoryResponse rootCategory : categories) {
+            if (rootCategory.getChildren() != null) {
+                for (CategoryTree rootTree : rootCategory.getChildren()) {
+                    buildLeafDtos(rootTree, "root/" + rootCategory.getName(), leafCategories, sourceIdCounter);
+                }
+            }else {
+                CategoryDto dto = new CategoryDto();
+                dto.setName(rootCategory.getName());
+                dto.setPath("root/" + rootCategory.getName());
+                dto.setSourceId(rootCategory.getId());
+                leafCategories.add(dto);
+            }
+        }
 
-        List<CategoryDto> categoryWithOutChildren = allChildren.stream()
-                .filter(c -> c.getChildren() == null)
-                .map(c -> mapper.convertValue(c, CategoryDto.class))
-                .toList();
-        log.debug("Categorie senza children: {}", categoryWithOutChildren.size());
-
-        allChildren.stream()
-                .filter(c -> c.getChildren() != null)
-                .forEach(c -> response.addAll(c.getChildren()));
-
-        response.addAll(categoryWithOutChildren);
+        List<CategoryDto> response = new ArrayList<>(leafCategories);
 
         log.info("Fine getCategory, categorie restituite: {}", response.size());
         return response;
+    }
+
+    private void buildLeafDtos(CategoryTree node, String path, List<CategoryDto> result, AtomicInteger sourceIdCounter) {
+        String currentPath = path + "/" + node.getName();
+        if (node.getChildren() == null || node.getChildren().isEmpty()) {
+            CategoryDto dto = new CategoryDto();
+            dto.setName(node.getName());
+            dto.setPath(currentPath);
+            dto.setSourceId(node.getId());
+            result.add(dto);
+        } else {
+            for (CategoryDto child : node.getChildren()) {
+                CategoryTree childTree = mapper.convertValue(child, CategoryTree.class);
+                buildLeafDtos(childTree, currentPath, result, sourceIdCounter);
+            }
+        }
     }
 }
