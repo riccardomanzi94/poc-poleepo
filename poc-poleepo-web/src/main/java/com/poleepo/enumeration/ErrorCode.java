@@ -1,8 +1,10 @@
 package com.poleepo.enumeration;
 
+import lombok.Generated;
 import lombok.Getter;
 
 @Getter
+@Generated
 public enum ErrorCode {
     GENERIC(1, "Internal error"),
     MISSING_REQUIRED_FIELD(2, "Missing required field"),

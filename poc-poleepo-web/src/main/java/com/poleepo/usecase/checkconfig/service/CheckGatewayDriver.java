@@ -39,7 +39,7 @@ public class CheckGatewayDriver implements ICheckGatewayDriver {
             return response;
         } catch (Exception e) {
             log.error("Error calling check config endpoint", e);
-           throw new GenericException("Errore durante la chiamata al servizio di configurazione");
+            throw new GenericException("Errore durante la chiamata al servizio di configurazione");
         }
     }
 }
