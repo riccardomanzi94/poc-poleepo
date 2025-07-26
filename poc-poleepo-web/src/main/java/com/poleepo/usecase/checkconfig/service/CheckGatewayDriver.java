@@ -1,8 +1,9 @@
 package com.poleepo.usecase.checkconfig.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poleepo.exception.GenericException;
 import com.poleepo.model.CheckConfigResponseDto;
 import com.poleepo.model.request.ConfigurationRequest;
+import com.poleepo.properties.CheckConfigProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,21 +16,22 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CheckGatewayDriver implements ICheckGatewayDriver {
 
-    private final ObjectMapper mapper;
     private final WebClient.Builder webClientBuilder;
+    private final CheckConfigProperties checkConfigProperties;
 
     @Override
     public CheckConfigResponseDto callCheckConfig(@NonNull String store, @NonNull String source, @NonNull ConfigurationRequest configurationRequest) {
         log.info("Calling check config for store: {} and source: {}", store, source);
 
-        WebClient webClient = webClientBuilder.build();
+        final WebClient webClient = webClientBuilder.build();
 
         try {
             Mono<CheckConfigResponseDto> responseMono = webClient
                     .get()
-                    .uri("http://localhost:3000/accounts/info")
+                    .uri(checkConfigProperties.getUrl())
                     .header("Authorization", "Bearer " + configurationRequest.getApiToken())
                     .retrieve()
+                    .onStatus(status -> !status.is2xxSuccessful(), clientResponse -> Mono.error(new RuntimeException("Errore chiamata API: " + clientResponse.statusCode())))
                     .bodyToMono(CheckConfigResponseDto.class);
 
             CheckConfigResponseDto response = responseMono.block();
@@ -37,10 +39,7 @@ public class CheckGatewayDriver implements ICheckGatewayDriver {
             return response;
         } catch (Exception e) {
             log.error("Error calling check config endpoint", e);
-            return CheckConfigResponseDto.builder()
-                    .active(false)
-                    .shops(null)
-                    .build();
+           throw new GenericException("Errore durante la chiamata al servizio di configurazione");
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.poleepo.usecase.checkconfig.service;
 
+import com.poleepo.exception.ConfigurationAlreadyExistException;
+import com.poleepo.exception.ShopNotFoundException;
 import com.poleepo.model.CheckConfigResponseDto;
 import com.poleepo.model.entities.ConfigurationEntity;
 import com.poleepo.model.request.ConfigurationRequest;
@@ -24,16 +26,16 @@ public class ConfigurationServiceImpl implements IConfigurationService{
         configurationRepository.findAllByStoreIdAndSource(Long.valueOf(store), Long.valueOf(source))
                 .ifPresent(config -> {
                     log.info("Configuration already exists for store: {} and source: {}", store, source);
-                    throw new IllegalArgumentException("Configurazione già esistente per il negozio e la fonte specificati");
+                    throw new ConfigurationAlreadyExistException("Configurazione già esistente per il negozio e la fonte specificati");
                 });
 
-        CheckConfigResponseDto checkConfigResponseDto = checkGatewayDriver.callCheckConfig(store, source, configurationRequest);
+        final CheckConfigResponseDto checkConfigResponseDto = checkGatewayDriver.callCheckConfig(store, source, configurationRequest);
 
         boolean verifyShop = checkConfigResponseDto.getShops().stream()
                 .anyMatch(shop -> shop.getId().equals(configurationRequest.getShopId()));
 
         if (!verifyShop) {
-            throw new IllegalArgumentException("Shop non trovato nella configurazione");
+            throw new ShopNotFoundException("Shop non trovato nella configurazione");
         }
 
         final ConfigurationEntity configurationEntity = ConfigurationEntity.builder()
