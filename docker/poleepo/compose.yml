@@ -1,38 +1,26 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
 services:
-  h2:
-    image: oscarfonts/h2
-    container_name: poleepo_h2_db
+  mysql:
+    image: mysql:8.0
+    container_name: poleepo_mysql_db
     ports:
-      - "1521:1521"  # Porta TCP per connessioni JDBC
-      - "8181:81"    # Porta web console
+      - "3306:3306"
     environment:
-      - H2_OPTIONS=-ifNotExists
-      - H2_USER=sa
-      - H2_PASSWORD=sa
+      - MYSQL_ROOT_PASSWORD=sa
+      - MYSQL_DATABASE=poleepo
+      - MYSQL_USER=prova
+      - MYSQL_PASSWORD=prova
     volumes:
-      - "h2_data:/opt/h2-data"
-
-  pace-hazelcast:
-    image: hazelcast/hazelcast:5.2.1
-    ports:
-      - "5701:5701"
-  pace-hazelcastmanagement-center:
-    image: hazelcast/management-center:5.2.1
-    ports:
-      - "5710:8080"
-    environment:
-      - MC_DEFAULT_CLUSTER=dev
-      - MC_DEFAULT_CLUSTER_MEMBERS=pace-hazelcast
-  pace-zookeeper:
+      - "mysql_data:/var/lib/mysql"
+  poleepo-zookeeper:
     image: docker.io/bitnami/zookeeper:3.8
     volumes:
       - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     hostname: zookeeper.local
-  pace-kafka:
+  poleepo-kafka:
     image: docker.io/bitnami/kafka:3.2
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
@@ -55,7 +43,7 @@ services:
     hostname: kafka.local
     depends_on:
       - pace-zookeeper
-  pace-kafka-ui:
+  poleepo-kafka-ui:
     image: provectuslabs/kafka-ui
     ports:
       - "8280:8080"
@@ -65,17 +53,8 @@ services:
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper.local:2181
     depends_on:
       - pace-kafka
-  wiremock:
-    image: "wiremock/wiremock:latest"
-    container_name: my_wiremock
-    entrypoint: [ "/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose" ]
-    ports:
-      - "8090:8080"
-    volumes:
-      - ./files:/home/wiremock/__files
-      - ./mappings:/home/wiremock/mappings
 volumes:
-  h2_data:
+  mysql_data:
   files:
   mappings:
   oracle_data:
