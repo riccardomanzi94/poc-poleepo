@@ -1,5 +1,6 @@
 package com.poleepo.usecase.product.service;
 
+import com.poleepo.exception.GenericException;
 import com.poleepo.model.request.CreateOrUpdateProductRequest;
 import com.poleepo.model.request.ProductRequest;
 import com.poleepo.properties.ProductProperties;
@@ -36,7 +37,22 @@ public class ProductServiceImpl  implements IProductService{
             return productGatewayDriver.createProduct(authorizationHeader != null ? authorizationHeader : "Bearer " + productProperties.getDefaultToken(), createOrUpdateProductRequest);
         }else{
             createOrUpdateProductRequest.setShopId(Integer.valueOf(productRequest.getSourceId()));
-            return productGatewayDriver.updateProduct(authorizationHeader != null ? authorizationHeader : "Bearer " + productProperties.getDefaultToken(),productRequest.getSourceId(), createOrUpdateProductRequest);
+            return productGatewayDriver.updateProduct(getAuthorizationHeader(authorizationHeader,productRequest),productRequest.getSourceId(), createOrUpdateProductRequest);
         }
+    }
+
+    private String getAuthorizationHeader(String authorizationHeader,ProductRequest productRequest) {
+        if (authorizationHeader != null) {
+            return authorizationHeader;
+        }else{
+            String[] splitToken = productProperties.getAvailableToken().split(",");
+            if(productRequest.getSourceId().equals("10205")){
+                return "Bearer " + splitToken[1];
+            }else if(productRequest.getSourceId().equals("10124")){
+                return "Bearer " + splitToken[0];
+            }
+        }
+        log.error("Token non presente in configurazione o nella richiesta per sourceId: {}", productRequest.getSourceId());
+        throw new GenericException("token non presente in configurazione o nella richiesta per sourceId:  " + productRequest.getSourceId());
     }
 }

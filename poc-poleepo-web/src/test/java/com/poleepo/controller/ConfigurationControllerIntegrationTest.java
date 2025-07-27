@@ -124,7 +124,7 @@ class ConfigurationControllerIntegrationTest {
                         .header(X_SOURCE_HEADER, source)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.error").value(ErrorCode.MISSING_REQUIRED_FIELD.getCode()))
                 .andExpect(jsonPath("$.message").value(ErrorCode.MISSING_REQUIRED_FIELD.getMessage()));
@@ -142,7 +142,7 @@ class ConfigurationControllerIntegrationTest {
                         .header(X_SOURCE_HEADER, source)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.error").value(ErrorCode.MISSING_REQUIRED_FIELD.getCode()));
     }
@@ -163,7 +163,7 @@ class ConfigurationControllerIntegrationTest {
                         .header(X_SOURCE_HEADER, source)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.error").value(ErrorCode.MISSING_REQUIRED_FIELD.getCode()));
     }

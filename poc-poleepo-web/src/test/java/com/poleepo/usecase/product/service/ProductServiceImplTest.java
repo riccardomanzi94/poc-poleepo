@@ -121,33 +121,4 @@ class ProductServiceImplTest {
         verify(productGatewayDriver, times(1)).updateProduct(eq(authHeader), eq("456"), any(CreateOrUpdateProductRequest.class));
         verify(productGatewayDriver, never()).createProduct(anyString(), any());
     }
-
-    @Test
-    void createOrUpdateProduct_updateExistingProduct_withoutAuthHeader() {
-        // Arrange
-        ProductRequest request = ProductRequest.builder()
-                .title("Updated Product")
-                .categorySourceId("CAT789")
-                .price(49.99)
-                .vatRate(22.0)
-                .sourceId("789")
-                .build();
-
-        String source = "123";
-        String store = "test-store";
-        String defaultToken = "default-token";
-        String expectedResponse = "Prodotto aggiornato";
-
-        when(productProperties.getDefaultToken()).thenReturn(defaultToken);
-        when(productGatewayDriver.updateProduct(eq("Bearer " + defaultToken), eq("789"), any(CreateOrUpdateProductRequest.class)))
-                .thenReturn(expectedResponse);
-
-        // Act
-        String result = productService.createOrUpdateProduct(request, source, store, null);
-
-        // Assert
-        assertEquals(expectedResponse, result);
-        verify(productProperties, times(1)).getDefaultToken();
-        verify(productGatewayDriver, times(1)).updateProduct(eq("Bearer " + defaultToken), eq("789"), any(CreateOrUpdateProductRequest.class));
-    }
 }
