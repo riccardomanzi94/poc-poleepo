@@ -47,4 +47,22 @@ public class PoleepoExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(ProductNotCreatedException.class)
+    public ResponseEntity<ResponseDto<String>> handleProductNotCreatedException() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDto.<String>builder()
+                .success(false)
+                .error(ErrorCode.PRODUCT_NOT_CREATED.getCode())
+                .message(ErrorCode.PRODUCT_NOT_CREATED.getMessage())
+                .build());
+    }
+
+    @ExceptionHandler(ProductNotUpdatedException.class)
+    public ResponseEntity<ResponseDto<String>> handleProductNotUpdatedException() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDto.<String>builder()
+                .success(false)
+                .error(ErrorCode.PRODUCT_NOT_UPDATED.getCode())
+                .message(ErrorCode.PRODUCT_NOT_UPDATED.getMessage())
+                .build());
+    }
+
 }
