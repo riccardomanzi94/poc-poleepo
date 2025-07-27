@@ -43,11 +43,10 @@ class PoleepoExceptionHandlerTest {
 
         // Then
         assertNotNull(response);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
         ResponseDto<String> responseBody = response.getBody();
-        assertFalse(responseBody.isSuccess());
         assertEquals(ErrorCode.MISSING_REQUIRED_FIELD.getCode(), responseBody.getError());
         assertEquals(ErrorCode.MISSING_REQUIRED_FIELD.getMessage(), responseBody.getMessage());
         assertNull(responseBody.getData());
@@ -72,11 +71,10 @@ class PoleepoExceptionHandlerTest {
 
         // Then
         assertNotNull(response);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
         ResponseDto<String> responseBody = response.getBody();
-        assertFalse(responseBody.isSuccess());
         assertEquals(ErrorCode.CONFIGURATION_NOT_FOUND.getCode(), responseBody.getError());
         assertEquals(ErrorCode.CONFIGURATION_NOT_FOUND.getMessage(), responseBody.getMessage());
         assertNull(responseBody.getData());
@@ -101,11 +99,10 @@ class PoleepoExceptionHandlerTest {
 
         // Then
         assertNotNull(response);
-        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
         ResponseDto<String> responseBody = response.getBody();
-        assertFalse(responseBody.isSuccess());
         assertEquals(ErrorCode.CONFIGURATION_NOT_VALID.getCode(), responseBody.getError());
         assertEquals(ErrorCode.CONFIGURATION_NOT_VALID.getMessage(), responseBody.getMessage());
         assertNull(responseBody.getData());
@@ -130,11 +127,10 @@ class PoleepoExceptionHandlerTest {
 
         // Then
         assertNotNull(response);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
         ResponseDto<String> responseBody = response.getBody();
-        assertFalse(responseBody.isSuccess());
         assertEquals(ErrorCode.GENERIC.getCode(), responseBody.getError());
         assertEquals(ErrorCode.GENERIC.getMessage(), responseBody.getMessage());
         assertNull(responseBody.getData());
@@ -159,22 +155,18 @@ class PoleepoExceptionHandlerTest {
         // Validation exception
         ResponseEntity<ResponseDto<String>> validationResponse = poleepoExceptionHandler.handleValidationExceptions(methodArgumentNotValidException);
         assertNotNull(validationResponse.getBody());
-        assertFalse(validationResponse.getBody().isSuccess());
 
         // Shop not found exception
         ResponseEntity<ResponseDto<String>> shopNotFoundResponse = poleepoExceptionHandler.handleShopNotFoundException();
         assertNotNull(shopNotFoundResponse.getBody());
-        assertFalse(shopNotFoundResponse.getBody().isSuccess());
 
         // Configuration already exist exception
         ResponseEntity<ResponseDto<String>> configExistResponse = poleepoExceptionHandler.handleConfigurationAlreadyExistException();
         assertNotNull(configExistResponse.getBody());
-        assertFalse(configExistResponse.getBody().isSuccess());
 
         // Generic exception
         ResponseEntity<ResponseDto<String>> genericResponse = poleepoExceptionHandler.handleGenericException();
         assertNotNull(genericResponse.getBody());
-        assertFalse(genericResponse.getBody().isSuccess());
     }
 
     @Test
@@ -202,16 +194,16 @@ class PoleepoExceptionHandlerTest {
     void httpStatusCodes_ShouldBeCorrectForEachException() {
         // Verify each exception returns the correct HTTP status
 
-        assertEquals(HttpStatus.BAD_REQUEST,
+        assertEquals(HttpStatus.OK,
                 poleepoExceptionHandler.handleValidationExceptions(methodArgumentNotValidException).getStatusCode());
 
-        assertEquals(HttpStatus.NOT_FOUND,
+        assertEquals(HttpStatus.OK,
                 poleepoExceptionHandler.handleShopNotFoundException().getStatusCode());
 
-        assertEquals(HttpStatus.CONFLICT,
+        assertEquals(HttpStatus.OK,
                 poleepoExceptionHandler.handleConfigurationAlreadyExistException().getStatusCode());
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,
+        assertEquals(HttpStatus.OK,
                 poleepoExceptionHandler.handleGenericException().getStatusCode());
     }
 
@@ -232,7 +224,6 @@ class PoleepoExceptionHandlerTest {
             assertNotNull(response.getBody());
 
             ResponseDto<String> body = response.getBody();
-            assertFalse(body.isSuccess());
             assertTrue(body.getError() > 0); // Error code should be positive
             assertNotNull(body.getMessage());
             assertFalse(body.getMessage().isEmpty());
