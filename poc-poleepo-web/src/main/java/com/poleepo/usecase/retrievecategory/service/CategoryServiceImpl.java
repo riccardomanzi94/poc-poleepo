@@ -2,9 +2,9 @@ package com.poleepo.usecase.retrievecategory.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poleepo.exception.GenericException;
-import com.poleepo.model.CategoryDto;
-import com.poleepo.model.CategoryTree;
-import com.poleepo.model.response.CategoryResponse;
+import com.poleepo.usecase.retrievecategory.model.CategoryDto;
+import com.poleepo.usecase.retrievecategory.model.CategoryTree;
+import com.poleepo.usecase.retrievecategory.model.response.CategoryResponse;
 import com.poleepo.properties.CategoryProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

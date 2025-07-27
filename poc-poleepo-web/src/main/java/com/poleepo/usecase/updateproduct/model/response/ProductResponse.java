@@ -1,4 +1,4 @@
-package com.poleepo.model.request;
+package com.poleepo.usecase.updateproduct.model.response;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
+public class ProductResponse {
 
     @NotNull
     private String title;
@@ -22,5 +22,5 @@ public class ProductRequest {
     private Double vatRate;
     @NotNull
     private Integer quantity;
-    private String sourceId;
+    private Integer sourceId;
 }

@@ -1,6 +1,6 @@
 package com.poleepo.usecase.checkconfig.repository;
 
-import com.poleepo.model.entities.ConfigurationEntity;
+import com.poleepo.usecase.checkconfig.model.entities.ConfigurationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

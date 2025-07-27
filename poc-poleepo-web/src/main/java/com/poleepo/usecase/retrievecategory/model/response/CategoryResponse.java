@@ -1,5 +1,6 @@
-package com.poleepo.model;
+package com.poleepo.usecase.retrievecategory.model.response;
 
+import com.poleepo.usecase.retrievecategory.model.CategoryTree;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +12,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryTree {
+public class CategoryResponse {
 
     private String id;
     private String name;
-    private List<CategoryDto> children;
+    private List<CategoryTree> children;
 
 }

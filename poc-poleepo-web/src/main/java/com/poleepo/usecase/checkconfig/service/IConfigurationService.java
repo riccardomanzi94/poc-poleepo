@@ -1,6 +1,6 @@
 package com.poleepo.usecase.checkconfig.service;
 
-import com.poleepo.model.request.ConfigurationRequest;
+import com.poleepo.usecase.checkconfig.model.request.ConfigurationRequest;
 import lombok.NonNull;
 
 public interface IConfigurationService {

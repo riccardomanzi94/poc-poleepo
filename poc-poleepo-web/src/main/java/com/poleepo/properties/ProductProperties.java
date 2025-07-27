@@ -15,6 +15,7 @@ public class ProductProperties {
 
     private String urlCreate;
     private String urlUpdate;
+    private String urlUpdateQuantity;
     private String defaultToken;
     private String availableToken;
 }

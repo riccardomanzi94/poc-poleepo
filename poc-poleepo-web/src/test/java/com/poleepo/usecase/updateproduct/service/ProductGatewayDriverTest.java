@@ -1,8 +1,9 @@
-package com.poleepo.usecase.product.service;
+package com.poleepo.usecase.updateproduct.service;
 
-import com.poleepo.exception.GenericException;
-import com.poleepo.model.request.CreateOrUpdateProductRequest;
+import com.poleepo.exception.ProductNotCreatedException;
+import com.poleepo.exception.ProductNotUpdatedException;
 import com.poleepo.properties.ProductProperties;
+import com.poleepo.usecase.updateproduct.model.request.CreateOrUpdateProductRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -105,7 +106,7 @@ class ProductGatewayDriverTest {
         when(responseSpec.bodyToMono(any(ParameterizedTypeReference.class))).thenThrow(new RuntimeException("Network error"));
 
         // Act & Assert
-        GenericException exception = assertThrows(GenericException.class,
+        ProductNotCreatedException exception = assertThrows(ProductNotCreatedException.class,
             () -> productGatewayDriver.createProduct(authHeader, request));
 
         assertEquals("Errore durante la chiamata al servizio dei products", exception.getMessage());
@@ -163,7 +164,7 @@ class ProductGatewayDriverTest {
         when(responseSpec.bodyToMono(any(ParameterizedTypeReference.class))).thenThrow(new RuntimeException("Connection timeout"));
 
         // Act & Assert
-        GenericException exception = assertThrows(GenericException.class,
+        ProductNotUpdatedException exception = assertThrows(ProductNotUpdatedException.class,
             () -> productGatewayDriver.updateProduct(authHeader, productId, request));
 
         assertEquals("Errore durante la chiamata al servizio dei products", exception.getMessage());

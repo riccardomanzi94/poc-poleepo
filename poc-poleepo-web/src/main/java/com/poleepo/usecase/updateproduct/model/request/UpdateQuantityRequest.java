@@ -1,4 +1,4 @@
-package com.poleepo.model;
+package com.poleepo.usecase.updateproduct.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
+public class UpdateQuantityRequest {
 
-    private String name;
-    private String path;
-    private String sourceId;
+    private Integer quantity;
+    private Integer shopId;
 }

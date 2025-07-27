@@ -1,7 +1,6 @@
 package com.poleepo.usecase.retrievecategory.service;
 
-import com.poleepo.model.CategoryDto;
-import com.poleepo.model.response.CategoryResponse;
+import com.poleepo.usecase.retrievecategory.model.CategoryDto;
 import lombok.NonNull;
 
 import java.util.List;

@@ -2,10 +2,10 @@ package com.poleepo.usecase.checkconfig.service;
 
 import com.poleepo.exception.ConfigurationAlreadyExistException;
 import com.poleepo.exception.ShopNotFoundException;
-import com.poleepo.model.CheckConfigResponseDto;
-import com.poleepo.model.ShopDto;
-import com.poleepo.model.entities.ConfigurationEntity;
-import com.poleepo.model.request.ConfigurationRequest;
+import com.poleepo.usecase.checkconfig.model.response.CheckConfigResponseDto;
+import com.poleepo.usecase.retrievecategory.model.ShopDto;
+import com.poleepo.usecase.checkconfig.model.entities.ConfigurationEntity;
+import com.poleepo.usecase.checkconfig.model.request.ConfigurationRequest;
 import com.poleepo.usecase.checkconfig.repository.ConfigurationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package com.poleepo.usecase.retrievecategory.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poleepo.exception.GenericException;
-import com.poleepo.model.CategoryDto;
+import com.poleepo.usecase.retrievecategory.model.CategoryDto;
 import com.poleepo.properties.CategoryProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

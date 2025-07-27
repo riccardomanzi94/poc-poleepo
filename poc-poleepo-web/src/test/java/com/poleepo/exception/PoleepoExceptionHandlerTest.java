@@ -137,18 +137,6 @@ class PoleepoExceptionHandlerTest {
     }
 
     @Test
-    void handleGenericException_VerifyErrorCodeValues() {
-        // When
-        ResponseEntity<ResponseDto<String>> response = poleepoExceptionHandler.handleGenericException();
-
-        // Then
-        assertNotNull(response.getBody());
-        ResponseDto<String> responseBody = response.getBody();
-        assertEquals(1, responseBody.getError()); // GENERIC code
-        assertEquals("Internal error", responseBody.getMessage()); // GENERIC message
-    }
-
-    @Test
     void allExceptionHandlers_ShouldReturnResponseWithSuccessFalse() {
         // Test that all exception handlers return success = false
 

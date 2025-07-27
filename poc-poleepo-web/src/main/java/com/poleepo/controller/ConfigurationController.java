@@ -1,6 +1,6 @@
 package com.poleepo.controller;
 
-import com.poleepo.model.request.ConfigurationRequest;
+import com.poleepo.usecase.checkconfig.model.request.ConfigurationRequest;
 import com.poleepo.model.response.ResponseDto;
 import com.poleepo.usecase.checkconfig.service.IConfigurationService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,4 +1,4 @@
-package com.poleepo.model.request;
+package com.poleepo.usecase.checkconfig.model.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

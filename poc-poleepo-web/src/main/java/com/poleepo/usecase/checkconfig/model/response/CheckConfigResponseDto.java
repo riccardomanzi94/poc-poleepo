@@ -1,5 +1,6 @@
-package com.poleepo.model;
+package com.poleepo.usecase.checkconfig.model.response;
 
+import com.poleepo.usecase.retrievecategory.model.ShopDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

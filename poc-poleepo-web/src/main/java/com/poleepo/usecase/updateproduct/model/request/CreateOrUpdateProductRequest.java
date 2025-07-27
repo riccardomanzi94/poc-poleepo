@@ -1,4 +1,4 @@
-package com.poleepo.model.request;
+package com.poleepo.usecase.updateproduct.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

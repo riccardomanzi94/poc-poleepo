@@ -1,4 +1,4 @@
-package com.poleepo.model.entities;
+package com.poleepo.usecase.checkconfig.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

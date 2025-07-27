@@ -1,6 +1,6 @@
 package com.poleepo.controller;
 
-import com.poleepo.model.CategoryDto;
+import com.poleepo.usecase.retrievecategory.model.CategoryDto;
 import com.poleepo.model.response.ResponseDto;
 import com.poleepo.usecase.retrievecategory.service.ICategoryService;
 import org.junit.jupiter.api.Test;

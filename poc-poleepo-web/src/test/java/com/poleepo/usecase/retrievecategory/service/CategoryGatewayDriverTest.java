@@ -1,7 +1,7 @@
 package com.poleepo.usecase.retrievecategory.service;
 
 import com.poleepo.exception.GenericException;
-import com.poleepo.model.response.CategoryResponse;
+import com.poleepo.usecase.retrievecategory.model.response.CategoryResponse;
 import com.poleepo.properties.CategoryProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,9 @@
 package com.poleepo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poleepo.model.request.ProductRequest;
-import com.poleepo.usecase.product.service.IProductService;
+import com.poleepo.usecase.updateproduct.model.request.ProductRequest;
+import com.poleepo.usecase.updateproduct.model.response.ProductResponse;
+import com.poleepo.usecase.updateproduct.service.IProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,7 +44,14 @@ class ProductControllerIntegrationTest {
         String store = "test-store";
         String source = "test-source";
         String authHeader = "Bearer token";
-        String expectedResponse = "Prodotto creato con successo";
+        ProductResponse expectedResponse = ProductResponse.builder()
+                .title("Test Product")
+                .categorySourceId("CAT123")
+                .price(29.99)
+                .vatRate(22.0)
+                .quantity(10)
+                .sourceId(123)
+                .build();
 
         when(productService.createOrUpdateProduct(any(ProductRequest.class), eq(source), eq(store), eq(authHeader)))
                 .thenReturn(expectedResponse);
@@ -77,7 +85,14 @@ class ProductControllerIntegrationTest {
 
         String store = "test-store";
         String source = "test-source";
-        String expectedResponse = "Prodotto aggiornato";
+        ProductResponse expectedResponse = ProductResponse.builder()
+                .title("Test Product")
+                .categorySourceId("CAT123")
+                .price(29.99)
+                .vatRate(22.0)
+                .quantity(10)
+                .sourceId(123)
+                .build();
 
         when(productService.createOrUpdateProduct(any(ProductRequest.class), eq(source), eq(store), isNull()))
                 .thenReturn(expectedResponse);

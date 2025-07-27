@@ -2,7 +2,7 @@ package com.poleepo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poleepo.enumeration.ErrorCode;
-import com.poleepo.model.request.ConfigurationRequest;
+import com.poleepo.usecase.checkconfig.model.request.ConfigurationRequest;
 import com.poleepo.model.response.ResponseDto;
 import com.poleepo.usecase.checkconfig.service.IConfigurationService;
 import org.junit.jupiter.api.Test;

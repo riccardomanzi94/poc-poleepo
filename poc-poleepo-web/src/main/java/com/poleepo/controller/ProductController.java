@@ -1,8 +1,9 @@
 package com.poleepo.controller;
 
-import com.poleepo.model.request.ProductRequest;
 import com.poleepo.model.response.ResponseDto;
-import com.poleepo.usecase.product.service.IProductService;
+import com.poleepo.usecase.updateproduct.model.request.ProductRequest;
+import com.poleepo.usecase.updateproduct.model.response.ProductResponse;
+import com.poleepo.usecase.updateproduct.service.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,15 +29,15 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Richiesta non valida")
     })
     @PutMapping
-    public ResponseEntity<ResponseDto<String>> createOrUpdateProduct(
+    public ResponseEntity<ResponseDto<ProductResponse>> createOrUpdateProduct(
             @RequestHeader(X_STORE) String store,
             @RequestHeader(X_SOURCE) String source,
             @Valid @RequestBody ProductRequest request,
             @RequestHeader(value = "Authorization",required = false) String authorizationHeader){
 
-        String response = productService.createOrUpdateProduct(request, source, store, authorizationHeader);
+        ProductResponse response = productService.createOrUpdateProduct(request, source, store, authorizationHeader);
 
-        return ResponseEntity.ok(ResponseDto.<String>builder()
+        return ResponseEntity.ok(ResponseDto.<ProductResponse>builder()
                 .success(true)
                 .data(response)
                 .build());
