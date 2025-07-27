@@ -1,0 +1,460 @@
+{
+  "uuid": "dc3f85eb-e8a7-4767-8d8b-1aa2eb0caafb",
+  "lastMigration": 33,
+  "name": "ProvaTecnica.mockoon",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "966902b7-3438-49ff-8396-dd9749008cc2",
+      "type": "http",
+      "documentation": "Questo end-point permette di recuperare i dettagli della chiave api",
+      "method": "get",
+      "endpoint": "accounts/info",
+      "responses": [
+        {
+          "uuid": "cca82625-968a-4144-a173-c20e1ecac7fe",
+          "body": "{\n  \"active\": true,\n  \"shops\": [\n    {\n      \"id\": \"10015\",\n      \"name\": \"Test Shop 1\",\n      \"status\": \"ACTIVE\",\n      \"vatNumber\": \"IT17584632019\"\n    },\n    {\n      \"id\": \"10124\",\n      \"name\": \"Test Shop 2\",\n      \"status\": \"DISABLED\",\n      \"vatNumber\": \"IT24987463529\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Chiave API: 01611f91d942dddb17d961d9211d7b01",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer 01611f91d942dddb17d961d9211d7b01",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ec31a6c6-7275-4bd8-964e-d79ab49e624b",
+          "body": "{\n  \"active\": true,\n  \"shops\": [\n    {\n      \"id\": 10205,\n      \"name\": \"Test Shop 3\",\n      \"status\": \"ACTIVE\",\n      \"vatNumber\": \"IT17584632019\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Chiave API: d3d6758fe9d0199e847e9ea5ec14d5de",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer d3d6758fe9d0199e847e9ea5ec14d5de",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a0b5e8f2-b419-4986-bc26-97509cc84b65",
+          "body": "{\n  \"message\": \"Unauthorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Unauthorized",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "8c365974-d387-476b-a970-d5d0db40428e",
+      "type": "http",
+      "documentation": "Questo end-point permette di recuperare l'alberatura del canale di vendita",
+      "method": "get",
+      "endpoint": "categories",
+      "responses": [
+        {
+          "uuid": "cabc1384-31dd-412d-98aa-cdc3d3d4ba72",
+          "body": "[\n  {\n    \"id\": \"1\",\n    \"name\": \"Abbigliamento\",\n    \"children\": [\n      {\n        \"id\": \"2\",\n        \"name\": \"Maglie\",\n        \"children\": [\n          {\n            \"id\": \"4\",\n            \"name\": \"T-Shirt\"\n          },\n          {\n            \"id\": \"5\",\n            \"name\": \"Slim fit\"\n          }\n        ]\n      },\n      {\n        \"id\": \"3\",\n        \"name\": \"Camicie\",\n        \"children\": [\n          {\n            \"id\": \"6\",\n            \"name\": \"Corte\"\n          },\n          {\n            \"id\": \"7\",\n            \"name\": \"Slim fit\"\n          }\n        ]\n      }\n    ]\n  },\n  {\n    \"id\": \"8\",\n    \"name\": \"Giardinaggio\",\n    \"children\": [\n      {\n        \"id\": \"9\",\n        \"name\": \"Utensili\",\n        \"children\": [\n          {\n            \"id\": \"11\",\n            \"name\": \"Automatici\"\n          },\n          {\n            \"id\": \"12\",\n            \"name\": \"Manuali\"\n          }\n        ]\n      },\n      {\n        \"id\": \"10\",\n        \"name\": \"Piante\"\n      }\n    ]\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Categorie recuperate",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer 01611f91d942dddb17d961d9211d7b01",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer d3d6758fe9d0199e847e9ea5ec14d5de",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f9217079-16c1-469d-8ac0-1e0e4b6fc9e7",
+      "type": "http",
+      "documentation": "Questo end-point permette di creare un nuovo prodotto sul canale di vendita",
+      "method": "post",
+      "endpoint": "products",
+      "responses": [
+        {
+          "uuid": "1b2962f4-a2f9-49db-af14-1411ffb91704",
+          "body": "{\n  \"id\": \"{{faker 'string.numeric' 5}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Configurazione 1",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer 01611f91d942dddb17d961d9211d7b01",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "shopId",
+              "value": "10124",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0facdc4d-adb3-467a-bbf9-aa1b671a5a55",
+          "body": "{\n  \"id\": \"{{faker 'string.numeric' 5}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Configurazione 2",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer d3d6758fe9d0199e847e9ea5ec14d5de",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "shopId",
+              "value": "10205",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a1bc03d7-f5d7-460b-ae46-26ce58479f0f",
+          "body": "{\n  \"message\": \"Forbidden\"\n}",
+          "latency": 0,
+          "statusCode": 403,
+          "label": "Forbidden",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer d3d6758fe9d0199e847e9ea5ec14d5de",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer 01611f91d942dddb17d961d9211d7b01",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "94a234f4-f7c4-4103-b310-966d9874d071",
+          "body": "{\n  \"message\": \"Unauthorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Unauthorized",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "4afdc4c9-42d9-4eae-9649-b7235e59fcfb",
+      "type": "http",
+      "documentation": "Questo end-point permette di creare un nuovo prodotto sul canale di vendita",
+      "method": "put",
+      "endpoint": "products/:id",
+      "responses": [
+        {
+          "uuid": "01a6b00d-ba20-42d3-8e45-a07905faa655",
+          "body": "{\n  \"id\": \"{{urlParam 'id'}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Configurazione 1",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer 01611f91d942dddb17d961d9211d7b01",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "shopId",
+              "value": "10124",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "eb30ebb2-2e5b-470f-84df-705ca103b57c",
+          "body": "{\n  \"id\": \"{{faker 'string.numeric' 5}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Configurazione 2",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer d3d6758fe9d0199e847e9ea5ec14d5de",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "shopId",
+              "value": "10205",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "d57ce7ee-b283-446f-8156-03208ab38c1c",
+          "body": "{\n  \"message\": \"Forbidden\"\n}",
+          "latency": 0,
+          "statusCode": 403,
+          "label": "Forbidden",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer d3d6758fe9d0199e847e9ea5ec14d5de",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer 01611f91d942dddb17d961d9211d7b01",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0ff4b0d0-78dd-410c-bbdf-717c9e71e751",
+          "body": "{\n  \"message\": \"Unauthorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Unauthorized",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "966902b7-3438-49ff-8396-dd9749008cc2"
+    },
+    {
+      "type": "route",
+      "uuid": "8c365974-d387-476b-a970-d5d0db40428e"
+    },
+    {
+      "type": "route",
+      "uuid": "f9217079-16c1-469d-8ac0-1e0e4b6fc9e7"
+    },
+    {
+      "type": "route",
+      "uuid": "4afdc4c9-42d9-4eae-9649-b7235e59fcfb"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
