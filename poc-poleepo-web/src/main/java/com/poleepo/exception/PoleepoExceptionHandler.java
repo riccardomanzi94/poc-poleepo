@@ -47,6 +47,15 @@ public class PoleepoExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseDto<String>> handleException() {
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.<String>builder()
+                .success(false)
+                .error(ErrorCode.GENERIC.getCode())
+                .message(ErrorCode.GENERIC.getMessage())
+                .build());
+    }
+
     @ExceptionHandler(ProductNotCreatedException.class)
     public ResponseEntity<ResponseDto<String>> handleProductNotCreatedException() {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.<String>builder()

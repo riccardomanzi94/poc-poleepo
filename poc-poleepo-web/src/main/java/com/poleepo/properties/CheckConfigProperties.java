@@ -14,4 +14,5 @@ import org.springframework.stereotype.Component;
 public class CheckConfigProperties {
 
     private String url;
+    private String availableToken;
 }
