@@ -20,9 +20,9 @@ jobs:
       - name: Login to docker hub
         run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Build docker image
-        run: docker build -t rmanzi/poc-poleepo.
+        run: docker build -t poc-poleepo.
       - name: Push docker image
-        run: docker push rmanzi/poc-poleepo:latest
+        run: docker push poc-poleepo:latest
 
   deploy:
     needs: build
