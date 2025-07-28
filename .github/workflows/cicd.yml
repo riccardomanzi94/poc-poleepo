@@ -26,7 +26,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [ip-172-31-32-233]
+    runs-on: [aws-ec2]
     steps:
       - name: Check Docker Installation
         run: |
