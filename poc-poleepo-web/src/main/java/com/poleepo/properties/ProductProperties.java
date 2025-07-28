@@ -18,4 +18,5 @@ public class ProductProperties {
     private String urlUpdateQuantity;
     private String defaultToken;
     private String availableToken;
+    private String shopIds;
 }

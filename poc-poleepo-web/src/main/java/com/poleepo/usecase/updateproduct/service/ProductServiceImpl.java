@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProductServiceImpl  implements IProductService{
 
+    private static final String BEARER = "Bearer ";
+
     private final IProductGatewayDriver productGatewayDriver;
     private final ProductProperties productProperties;
 
@@ -37,10 +39,10 @@ public class ProductServiceImpl  implements IProductService{
 
         if(productRequest.getSourceId() == null || productRequest.getSourceId().isEmpty()){
             createOrUpdateProductRequest.setShopId(Integer.valueOf(source));
-            response = productGatewayDriver.createProduct(authorizationHeader != null ? authorizationHeader : "Bearer " + productProperties.getDefaultToken(), createOrUpdateProductRequest);
+            response = productGatewayDriver.createProduct(getAuthorizationHeader(authorizationHeader, source), createOrUpdateProductRequest);
         }else{
             createOrUpdateProductRequest.setShopId(Integer.valueOf(productRequest.getSourceId()));
-            response = productGatewayDriver.updateProduct(getAuthorizationHeader(authorizationHeader,productRequest),productRequest.getSourceId(), createOrUpdateProductRequest);
+            response = productGatewayDriver.updateProduct(getAuthorizationHeader(authorizationHeader,productRequest.getSourceId()),productRequest.getSourceId(), createOrUpdateProductRequest);
         }
 
         final UpdateQuantityRequest quantityRequest = UpdateQuantityRequest.builder()
@@ -48,32 +50,32 @@ public class ProductServiceImpl  implements IProductService{
                 .shopId(createOrUpdateProductRequest.getShopId())
                 .build();
 
-        String quantity = productGatewayDriver.updateQuantity(getAuthorizationHeader(authorizationHeader, productRequest), response, quantityRequest);
+        productGatewayDriver.updateQuantity(getAuthorizationHeader(authorizationHeader, String.valueOf(createOrUpdateProductRequest.getShopId())), response, quantityRequest);
 
         return ProductResponse.builder()
                 .title(productRequest.getTitle())
                 .categorySourceId(productRequest.getCategorySourceId())
                 .price(productRequest.getPrice())
                 .vatRate(productRequest.getVatRate())
-                .quantity(Integer.valueOf(quantity))
+                .quantity(productRequest.getQuantity())
                 .sourceId(createOrUpdateProductRequest.getShopId())
                 .build();
 
     }
 
-    private String getAuthorizationHeader(String authorizationHeader,ProductRequest productRequest) {
+    private String getAuthorizationHeader(String authorizationHeader,String sourceId) {
         if (authorizationHeader != null) {
             return authorizationHeader;
         }else{
             String[] splitToken = productProperties.getAvailableToken().split(",");
-            if (productRequest.getSourceId() == null) {
-                return "Bearer " + productProperties.getDefaultToken();
-            } else if (productRequest.getSourceId().equals("10205")) {
-                return "Bearer " + splitToken[1];
-            } else if (productRequest.getSourceId().equals("10124")) {
-                return "Bearer " + splitToken[0];
+            if (sourceId == null) {
+                return BEARER + productProperties.getDefaultToken();
+            } else if (sourceId.equals("10205")) {
+                return BEARER + splitToken[1];
+            } else if (sourceId.equals("10124") || sourceId.equals("10015")) {
+                return BEARER + splitToken[0];
             } else {
-                return "Bearer " + productProperties.getDefaultToken();
+                return BEARER + productProperties.getDefaultToken();
             }
         }
     }

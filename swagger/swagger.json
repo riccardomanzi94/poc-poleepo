@@ -6,11 +6,15 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000",
+      "url": "http://localhost:8090",
       "description": "Generated server url"
     }
   ],
   "tags": [
+    {
+      "name": "Prodotto",
+      "description": "Operazioni sul prodotto"
+    },
     {
       "name": "Categorie",
       "description": "Operazioni sulle categorie"
@@ -21,6 +25,74 @@
     }
   ],
   "paths": {
+    "/products": {
+      "put": {
+        "tags": [
+          "Prodotto"
+        ],
+        "summary": "Crea o aggiorna un prodotto",
+        "description": "Crea o aggiorna un prodotto per uno store e una source specifici.",
+        "operationId": "createOrUpdateProduct",
+        "parameters": [
+          {
+            "name": "X-STORE",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-SOURCE",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Prodotto creato/aggiornato con successo",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDtoProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Richiesta non valida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDtoProductResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/configurations": {
       "post": {
         "tags": [
@@ -152,6 +224,91 @@
   },
   "components": {
     "schemas": {
+      "ProductRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "categorySourceId": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "vatRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sourceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "categorySourceId",
+          "price",
+          "quantity",
+          "title",
+          "vatRate"
+        ]
+      },
+      "ProductResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "categorySourceId": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "vatRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sourceId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "categorySourceId",
+          "price",
+          "quantity",
+          "title",
+          "vatRate"
+        ]
+      },
+      "ResponseDtoProductResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProductResponse"
+          }
+        }
+      },
       "ConfigurationRequest": {
         "type": "object",
         "properties": {
