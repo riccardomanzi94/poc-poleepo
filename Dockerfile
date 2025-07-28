@@ -1,10 +1,12 @@
-FROM eclipse-temurin:21-jdk-alpine
-
+# Fase 1: Build con Maven
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
 WORKDIR /app
+COPY . /app
+RUN mvn -f /app/pom.xml clean package -DskipTests
 
-COPY poc-poleepo-web/target/poc-poleepo-web-0.0.2.jar app.jar
-
+FROM eclipse-temurin:21-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/poc-poleepo-web/target/poc-poleepo-web-0.0.2.jar app.jar
 EXPOSE 8080
-
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
