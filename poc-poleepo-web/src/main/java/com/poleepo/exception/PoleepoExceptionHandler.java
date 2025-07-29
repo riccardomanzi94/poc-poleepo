@@ -38,6 +38,15 @@ public class PoleepoExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(ConfigurationNotValidException.class)
+    public ResponseEntity<ResponseDto<String>> handleConfigurationNotValidException() {
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.<String>builder()
+                .success(false)
+                .error(ErrorCode.CONFIGURATION_NOT_VALID.getCode())
+                .message(ErrorCode.CONFIGURATION_NOT_VALID.getMessage())
+                .build());
+    }
+
     @ExceptionHandler(GenericException.class)
     public ResponseEntity<ResponseDto<String>> handleGenericException() {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.<String>builder()

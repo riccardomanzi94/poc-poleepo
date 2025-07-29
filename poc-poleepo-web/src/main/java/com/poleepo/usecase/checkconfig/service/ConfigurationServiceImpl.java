@@ -1,6 +1,7 @@
 package com.poleepo.usecase.checkconfig.service;
 
 import com.poleepo.exception.ConfigurationAlreadyExistException;
+import com.poleepo.exception.ConfigurationNotValidException;
 import com.poleepo.exception.GenericException;
 import com.poleepo.exception.ShopNotFoundException;
 import com.poleepo.properties.CheckConfigProperties;
@@ -28,7 +29,7 @@ public class ConfigurationServiceImpl implements IConfigurationService{
 
         boolean checkApiToken = getAuthorizationHeader(configurationRequest.getApiToken(), configurationRequest.getShopId());
         if(!checkApiToken){
-            throw new GenericException("Token API non autorizzato per il negozio e la fonte specificati");
+            throw new ConfigurationNotValidException("Token API non autorizzato per il negozio e la fonte specificati");
         }
 
         configurationRepository.findAllByStoreIdAndSource(Long.valueOf(store), Long.valueOf(source))
