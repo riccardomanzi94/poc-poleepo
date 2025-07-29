@@ -14,4 +14,5 @@ public class CategoryDto {
     private String name;
     private String path;
     private String sourceId;
+    private String id;
 }
