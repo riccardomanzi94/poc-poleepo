@@ -8,5 +8,4 @@ FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/poc-poleepo-web/target/*.jar app.jar
 EXPOSE 8000
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
+ENTRYPOINT ["java", "-Dspring.profiles.active=main", "-jar", "app.jar"]
