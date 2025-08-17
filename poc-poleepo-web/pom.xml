@@ -148,6 +148,19 @@
                     <useFile>false</useFile>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <mainClass>com.poleepo.PocPoleepoApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <!-- plugin for code coverage -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
