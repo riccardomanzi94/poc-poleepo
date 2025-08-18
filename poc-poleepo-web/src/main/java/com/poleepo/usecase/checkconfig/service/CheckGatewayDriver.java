@@ -23,23 +23,7 @@ public class CheckGatewayDriver implements ICheckGatewayDriver {
     public CheckConfigResponseDto callCheckConfig(@NonNull String store, @NonNull String source, @NonNull ConfigurationRequest configurationRequest) {
         log.info("Calling check config for store: {} and source: {}", store, source);
 
-        final WebClient webClient = webClientBuilder.build();
-
-        try {
-            Mono<CheckConfigResponseDto> responseMono = webClient
-                    .get()
-                    .uri(checkConfigProperties.getUrl())
-                    .header("Authorization", "Bearer " + configurationRequest.getApiToken())
-                    .retrieve()
-                    .onStatus(status -> !status.is2xxSuccessful(), clientResponse -> Mono.error(new RuntimeException("Errore chiamata API: " + clientResponse.statusCode())))
-                    .bodyToMono(CheckConfigResponseDto.class);
-
-            CheckConfigResponseDto response = responseMono.block();
-            log.info("Successfully received response from check config endpoint");
-            return response;
-        } catch (Exception e) {
-            log.error("Error calling check config endpoint", e);
-            throw new GenericException("Errore durante la chiamata al servizio di configurazione");
-        }
+        //TODO implement check config API call with AI
+        return null;
     }
 }
